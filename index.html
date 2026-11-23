@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyMate - Smart Student Companion</title>
+  <!-- Google Fonts for modern clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Mobile Navigation Bar -->
+    <header class="mobile-header">
+      <div class="brand">
+        <span class="brand-icon">📚</span>
+        <span class="brand-text">Study<span>Mate</span></span>
+      </div>
+      <button id="mobile-menu-btn" class="icon-btn" aria-label="Toggle Navigation">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <span class="brand-icon">📚</span>
+          <div class="brand-info">
+            <span class="brand-text">Study<span>Mate</span></span>
+            <span class="brand-tagline">Student Companion</span>
+          </div>
+        </div>
+        <button id="close-sidebar-btn" class="icon-btn mobile-only" aria-label="Close Navigation">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-view="assignments">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Assignments</span>
+          <span id="badge-assignments-pending" class="nav-badge">0</span>
+        </button>
+
+        <button class="nav-item" data-view="tasks">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span>Daily Tasks</span>
+          <span id="badge-tasks-pending" class="nav-badge">0</span>
+        </button>
+
+        <button class="nav-item" data-view="timetable">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Timetable</span>
+        </button>
+
+        <button class="nav-item" data-view="progress">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>Progress</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer User Card -->
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">🎓</div>
+          <div class="user-details">
+            <span class="user-name">College Scholar</span>
+            <span class="user-status">Active Semester</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Overlay backdrop for mobile sidebar -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Action & Greeting Bar -->
+      <header class="top-bar">
+        <div class="greeting-container">
+          <h1 id="greeting-title" class="greeting-title">Hello, Scholar! 👋</h1>
+          <p id="current-date" class="greeting-date">Loading date...</p>
+        </div>
+        <div class="top-actions">
+          <button id="quick-add-btn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Quick Add</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: DASHBOARD -->
+      <section id="view-dashboard" class="content-view active">
+        <!-- Overview Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon-wrapper purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Pending Assignments</span>
+              <h3 id="stat-pending-assignments" class="stat-value">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Daily Tasks Done</span>
+              <h3 id="stat-completed-tasks" class="stat-value">0/0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper cyan">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Today's Classes</span>
+              <h3 id="stat-today-classes" class="stat-value">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 20V10"></path>
+                <path d="M12 20V4"></path>
+                <path d="M6 20v-6"></path>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Overall Completion</span>
+              <h3 id="stat-overall-progress" class="stat-value">0%</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Widgets Grid -->
+        <div class="dashboard-widgets-grid">
+          <!-- Upcoming Assignments Widget -->
+          <div class="card widget-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Upcoming Deadlines</h2>
+                <span class="card-subtitle">Urgent assignments needing focus</span>
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="switchView('assignments')">View All</button>
+            </div>
+            <div class="card-body">
+              <div id="dash-assignments-list" class="item-list">
+                <!-- Dynamically injected -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Study Tasks Widget -->
+          <div class="card widget-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Daily Study Goals</h2>
+                <span class="card-subtitle">Keep your study momentum</span>
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="switchView('tasks')">View All</button>
+            </div>
+            <div class="card-body">
+              <div class="progress-bar-container">
+                <div class="progress-labels">
+                  <span>Today's Progress</span>
+                  <span id="dash-task-percent">0%</span>
+                </div>
+                <div class="progress-track">
+                  <div id="dash-task-fill" class="progress-fill" style="width: 0%"></div>
+                </div>
+              </div>
+              <div id="dash-tasks-list" class="item-list">
+                <!-- Dynamically injected -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Classes Widget -->
+          <div class="card widget-card full-width">
+            <div class="card-header">
+              <div class="card-title-group">
+                <h2 class="card-title">Today's Class Schedule</h2>
+                <span id="dash-today-name" class="card-subtitle">Classes scheduled for today</span>
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="switchView('timetable')">Full Timetable</button>
+            </div>
+            <div class="card-body">
+              <div id="dash-timetable-list" class="timetable-grid-preview">
+                <!-- Dynamically injected -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: ASSIGNMENTS -->
+      <section id="view-assignments" class="content-view">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Assignments & Deadlines</h2>
+            <p class="view-description">Track college coursework, papers, and lab reports</p>
+          </div>
+          <button id="open-add-assignment-btn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Assignment</span>
+          </button>
+        </div>
+
+        <!-- Filter and Search Bar -->
+        <div class="filter-bar">
+          <div class="filter-tabs">
+            <button class="filter-btn active" data-assignment-filter="all">All</button>
+            <button class="filter-btn" data-assignment-filter="pending">Pending</button>
+            <button class="filter-btn" data-assignment-filter="completed">Completed</button>
+          </div>
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="assignment-search" placeholder="Search assignments or subjects...">
+          </div>
+        </div>
+
+        <!-- Assignments List Container -->
+        <div id="assignments-container" class="assignments-grid">
+          <!-- Dynamically injected -->
+        </div>
+      </section>
+
+      <!-- VIEW 3: DAILY STUDY TASKS -->
+      <section id="view-tasks" class="content-view">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Daily Study Task Manager</h2>
+            <p class="view-description">Organize bite-sized study blocks and revision activities</p>
+          </div>
+          <button id="open-add-task-btn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Study Task</span>
+          </button>
+        </div>
+
+        <!-- Tasks Progress Card -->
+        <div class="card tasks-progress-card">
+          <div class="progress-stats-row">
+            <div>
+              <h3 class="progress-title">Today's Daily Study Target</h3>
+              <p id="tasks-progress-text" class="progress-sub">0 of 0 tasks completed</p>
+            </div>
+            <span id="tasks-progress-badge" class="percent-pill">0% Done</span>
+          </div>
+          <div class="progress-track large">
+            <div id="tasks-progress-bar" class="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Quick Inline Task Adder -->
+        <div class="card quick-inline-card">
+          <form id="quick-task-form" class="inline-task-form">
+            <input type="text" id="quick-task-input" placeholder="e.g. Read Physics Chapter 3 (30 mins)..." required>
+            <select id="quick-task-category">
+              <option value="Study">Study Session</option>
+              <option value="Revision">Revision</option>
+              <option value="Homework">Homework</option>
+              <option value="Reading">Reading</option>
+              <option value="Practice">Problem Practice</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Quick Add</button>
+          </form>
+        </div>
+
+        <!-- Task List Container -->
+        <div id="tasks-container" class="tasks-list">
+          <!-- Dynamically injected -->
+        </div>
+      </section>
+
+      <!-- VIEW 4: CLASS TIMETABLE -->
+      <section id="view-timetable" class="content-view">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Class Timetable & Schedule</h2>
+            <p class="view-description">Never miss a lecture, lab, or tutorial</p>
+          </div>
+          <button id="open-add-class-btn" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Class</span>
+          </button>
+        </div>
+
+        <!-- Day Selector Tabs -->
+        <div class="timetable-days-nav">
+          <button class="day-tab active" data-day="Monday">Monday</button>
+          <button class="day-tab" data-day="Tuesday">Tuesday</button>
+          <button class="day-tab" data-day="Wednesday">Wednesday</button>
+          <button class="day-tab" data-day="Thursday">Thursday</button>
+          <button class="day-tab" data-day="Friday">Friday</button>
+          <button class="day-tab" data-day="Saturday">Saturday</button>
+        </div>
+
+        <div class="timetable-active-day-header">
+          <h3 id="current-day-label">Monday's Classes</h3>
+          <span id="class-count-label" class="badge badge-info">0 Classes</span>
+        </div>
+
+        <!-- Timetable Cards Container -->
+        <div id="timetable-container" class="timetable-grid">
+          <!-- Dynamically injected -->
+        </div>
+      </section>
+
+      <!-- VIEW 5: PROGRESS TRACKING -->
+      <section id="view-progress" class="content-view">
+        <div class="view-header">
+          <div>
+            <h2 class="view-title">Academic Progress & Analytics</h2>
+            <p class="view-description">Visualize your productivity, task completion, and academic consistency</p>
+          </div>
+          <button id="reset-data-btn" class="btn btn-secondary-danger">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+            <span>Reset Demo Data</span>
+          </button>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="card analytics-card">
+            <h3 class="card-title">Assignments Completion</h3>
+            <p class="card-subtitle">Status of all tracked coursework</p>
+            <div class="progress-bar-container">
+              <div class="progress-labels">
+                <span>Completed Ratio</span>
+                <span id="analytics-assign-percent">0%</span>
+              </div>
+              <div class="progress-track large">
+                <div id="analytics-assign-fill" class="progress-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="stats-mini-row">
+              <div class="mini-stat">
+                <span class="mini-stat-num" id="analytics-assign-total">0</span>
+                <span class="mini-stat-label">Total</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-stat-num text-success" id="analytics-assign-done">0</span>
+                <span class="mini-stat-label">Completed</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-stat-num text-warning" id="analytics-assign-pending">0</span>
+                <span class="mini-stat-label">Pending</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card analytics-card">
+            <h3 class="card-title">Daily Study Habit Consistency</h3>
+            <p class="card-subtitle">Execution rate on daily tasks</p>
+            <div class="progress-bar-container">
+              <div class="progress-labels">
+                <span>Daily Completion</span>
+                <span id="analytics-task-percent">0%</span>
+              </div>
+              <div class="progress-track large">
+                <div id="analytics-task-fill" class="progress-fill green" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="stats-mini-row">
+              <div class="mini-stat">
+                <span class="mini-stat-num" id="analytics-task-total">0</span>
+                <span class="mini-stat-label">Total Today</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-stat-num text-success" id="analytics-task-done">0</span>
+                <span class="mini-stat-label">Finished</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-stat-num text-warning" id="analytics-task-remaining">0</span>
+                <span class="mini-stat-label">Remaining</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card analytics-card full-width">
+            <h3 class="card-title">Study Companion Tips 💡</h3>
+            <div class="study-tips-grid">
+              <div class="tip-box">
+                <h4>🎯 25/5 Pomodoro Rule</h4>
+                <p>Divide assignments into 25-minute uninterrupted study sessions followed by a 5-minute break.</p>
+              </div>
+              <div class="tip-box">
+                <h4>📅 Priority Matrix</h4>
+                <p>Always knock out High-Priority assignments at least 2 days before the actual submission deadline.</p>
+              </div>
+              <div class="tip-box">
+                <h4>🧠 Active Recall</h4>
+                <p>Review class notes within 24 hours of each lecture to improve memory retention by up to 80%.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: ADD ASSIGNMENT -->
+  <div id="modal-assignment" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Add New Assignment</h3>
+        <button class="icon-btn modal-close" data-modal="modal-assignment" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="form-assignment" class="modal-body">
+        <div class="form-group">
+          <label for="assign-title">Assignment Title *</label>
+          <input type="text" id="assign-title" required placeholder="e.g. Data Structures Problem Set 4">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="assign-subject">Subject / Course *</label>
+            <input type="text" id="assign-subject" required placeholder="e.g. CS 201 or Calculus">
+          </div>
+          <div class="form-group">
+            <label for="assign-priority">Priority Level</label>
+            <select id="assign-priority">
+              <option value="High">🔴 High Priority</option>
+              <option value="Medium" selected>🟡 Medium Priority</option>
+              <option value="Low">🟢 Low Priority</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="assign-due">Due Date & Time *</label>
+          <input type="datetime-local" id="assign-due" required>
+        </div>
+        <div class="form-group">
+          <label for="assign-notes">Notes / Requirements (Optional)</label>
+          <textarea id="assign-notes" rows="3" placeholder="Additional details, submission links, or group members..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close" data-modal="modal-assignment">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD STUDY TASK -->
+  <div id="modal-task" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Daily Study Task</h3>
+        <button class="icon-btn modal-close" data-modal="modal-task" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="form-task" class="modal-body">
+        <div class="form-group">
+          <label for="task-title">Task Description *</label>
+          <input type="text" id="task-title" required placeholder="e.g. Review Organic Chemistry Mechanisms">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-category">Category</label>
+            <select id="task-category">
+              <option value="Study">Study Session</option>
+              <option value="Revision">Revision</option>
+              <option value="Homework">Homework</option>
+              <option value="Reading">Reading</option>
+              <option value="Practice">Practice Questions</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task-duration">Target Duration</label>
+            <input type="text" id="task-duration" placeholder="e.g. 45 mins">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close" data-modal="modal-task">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD CLASS TIMETABLE -->
+  <div id="modal-class" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Class Schedule</h3>
+        <button class="icon-btn modal-close" data-modal="modal-class" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="form-class" class="modal-body">
+        <div class="form-group">
+          <label for="class-day">Day of Week *</label>
+          <select id="class-day" required>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="class-subject">Course Name / Subject *</label>
+          <input type="text" id="class-subject" required placeholder="e.g. Artificial Intelligence">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="class-start">Start Time *</label>
+            <input type="time" id="class-start" required>
+          </div>
+          <div class="form-group">
+            <label for="class-end">End Time *</label>
+            <input type="time" id="class-end" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="class-room">Classroom / Room No. *</label>
+            <input type="text" id="class-room" required placeholder="e.g. Hall 302 or Zoom">
+          </div>
+          <div class="form-group">
+            <label for="class-instructor">Professor / Instructor</label>
+            <input type="text" id="class-instructor" placeholder="e.g. Dr. Alan Turing">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close" data-modal="modal-class">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Class</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Core JavaScript Application -->
+  <script src="app.js"></script>
+</body>
+</html>
